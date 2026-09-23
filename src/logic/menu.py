@@ -5,13 +5,13 @@ def menu():
     try:
         while True:
             limpiar_pantalla();
-            print("Bienvenido al sistema de gestión de productos");
+            print("Bienvenido al sistema de gestión de productos\n");
             print("1.- Agregar producto");
             print("2.- Mostrar productos");
             print("3.- Modificar producto");
             print("4.- Eliminar producto");
             print("0.- Salir");
-            opcion: int = int(input("Seleccione una opción: "));
+            opcion: int = int(input("\nSeleccione una opción: "));
             
             match opcion:
                 case 1:
@@ -29,9 +29,10 @@ def menu():
                     print("Opción inválida, por favor seleccione una opción válida");
 
     except ValueError:
-        print("Error: Debe ingresar un número entero para seleccionar una opción");
+        input("\nError: Debe ingresar un número entero para seleccionar una opción");
+        menu();
     except KeyboardInterrupt:
-        print("\nSaliendo del sistema...");
+        print("\n\nSaliendo del sistema...\n");
     except Exception as e:
         print(f"\nError inesperado: {e}");
 
