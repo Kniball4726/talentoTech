@@ -1,8 +1,5 @@
 from src.logic.funciones import agregar_producto, mostrar_productos, modificar_producto, eliminar_producto, limpiar_pantalla
 
-global productos
-productos:list = []
-
 def menu():
     limpiar_pantalla();
     try:

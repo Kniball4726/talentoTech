@@ -2,6 +2,7 @@ import os
 
 productos:list = []
 
+
 def limpiar_pantalla():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -12,7 +13,7 @@ def agregar_producto():
     categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
     precio: float = float(input("Ingrese el precio del producto: "))
 
-    producto = {
+    producto: dict = {
         "nombre": nombre,
         "categoria": categoria,
         "precio": precio
