@@ -29,9 +29,11 @@ def mostrar_productos():
         print("No hay productos registrados");  
     else:
         print("Productos registrados:");
+        contador: int = 1
         for producto in productos:
-            print(f"Nombre: {producto['nombre']}, Categoría: {producto['categoria']}, Precio: {producto['precio']}");
-            input("Presione Enter para continuar...");
+            print(f"\nIndice: {contador}\nNombre: {producto['nombre']}\nCategoría: {producto['categoria']}\nPrecio: {producto['precio']}\n");
+            contador += 1
+        input("\nPresione Enter para continuar...");
 
 def modificar_producto():
     limpiar_pantalla()
