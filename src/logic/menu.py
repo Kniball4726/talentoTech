@@ -1,39 +1,41 @@
-from logic.funciones import agregarProducto
+from src.logic.funciones import agregar_producto, mostrar_productos, modificar_producto, eliminar_producto, limpiar_pantalla
 
 global productos
 productos:list = []
 
-while True:
-    print("Bienvenido al sistema de gestión de productos");
-    print("1.- Agregar producto");
-    print("2.- Mostrar productos");
-    print("3.- Modificar producto");
-    print("4.- Eliminar producto");
-    print("5.- Salir");
-    opcion = int(input("Seleccione una opción: "));
-    
-    match opcion:
-        case 1:
-            nombre = input("Ingrese el nombre del producto: ");
-            categoria = input("Ingrese la categoría del producto: ");
-            precio = float(input("Ingrese el precio del producto: "));
+def menu():
+    limpiar_pantalla();
+    try:
+        while True:
+            limpiar_pantalla();
+            print("Bienvenido al sistema de gestión de productos");
+            print("1.- Agregar producto");
+            print("2.- Mostrar productos");
+            print("3.- Modificar producto");
+            print("4.- Eliminar producto");
+            print("5.- Salir");
+            opcion: int = int(input("Seleccione una opción: "));
+            
+            match opcion:
+                case 1:
+                    agregar_producto();
+                case 2:
+                    mostrar_productos();
+                case 3:
+                    modificar_producto();
+                case 4:
+                    eliminar_producto();
+                case 5:
+                    print("Saliendo del sistema...");
+                    break;
+                case _:
+                    print("Opción inválida, por favor seleccione una opción válida");
 
-            producto = {
-                "nombre": nombre,
-                "categoria": categoria,
-                "precio": precio
-            }
-
-            productos.append(producto);
-            print("Producto agregado correctamente");
-            print(productos);
-
-        case 2:
-            if len(productos) == 0:
-                print("No hay productos registrados");  
-            else:
-                print("Productos registrados:");
-                for producto in productos:
-                    print(f"Nombre: {producto['nombre']}, Categoría: {producto['categoria']}, Precio: {producto['precio']}]");
+    except ValueError:
+        print("Error: Debe ingresar un número entero para seleccionar una opción");
+    except KeyboardInterrupt:
+        print("\nSaliendo del sistema...");
+    except Exception as e:
+        print(f"\nError inesperado: {e}");
 
 

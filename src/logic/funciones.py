@@ -1,10 +1,64 @@
-productos = []
+import os
 
-def agregarProducto(clave, valor):
-    productos.append({clave: valor})
-    return productos
+productos:list = []
 
+def limpiar_pantalla():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-agregar_producto = agregarProducto("id", 1)
+def agregar_producto():
+    limpiar_pantalla()
+    print("Agregar producto\n");
+    nombre: str = input("Ingrese el nombre del producto: ").capitalize().strip()
+    categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
+    precio: float = float(input("Ingrese el precio del producto: "))
 
-print (agregar_producto)
+    producto = {
+        "nombre": nombre,
+        "categoria": categoria,
+        "precio": precio
+    }
+
+    productos.append(producto)
+    print("Producto agregado correctamente")
+
+def mostrar_productos():
+    limpiar_pantalla()  
+    print("Mostrar productos\n");
+    if len(productos) == 0:
+        print("No hay productos registrados");  
+    else:
+        print("Productos registrados:");
+        for producto in productos:
+            print(f"Nombre: {producto['nombre']}, Categoría: {producto['categoria']}, Precio: {producto['precio']}");
+            input("Presione Enter para continuar...");
+
+def modificar_producto():
+    limpiar_pantalla()
+    print("Modificar producto\n");
+    if len(productos) == 0:
+        print("No hay productos registrados");
+    else:
+        nombre: str = input("Ingrese el nombre del producto a modificar: ").capitalize().strip();
+        for producto in productos:
+            if producto["nombre"] == nombre:
+                categoria: str = input("Ingrese la nueva categoría del producto: ").capitalize().strip();
+                precio: float = float(input("Ingrese el nuevo precio del producto: "));
+                producto["categoria"] = categoria;
+                producto["precio"] = precio;
+                input("Producto modificado correctamente");
+            else:
+                print("Producto no encontrado");        
+
+def eliminar_producto():
+    limpiar_pantalla()
+    print("Eliminar producto\n");
+    if len(productos) == 0:
+        print("No hay productos registrados");
+    else:
+        nombre: str = input("Ingrese el nombre del producto a eliminar: ").capitalize().strip();
+        for producto in productos:
+            if producto["nombre"] == nombre:
+                productos.remove(producto);
+                input("Producto eliminado correctamente");
+            else:
+                input("Producto no encontrado");
