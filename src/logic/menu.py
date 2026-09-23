@@ -10,7 +10,7 @@ def menu():
             print("2.- Mostrar productos");
             print("3.- Modificar producto");
             print("4.- Eliminar producto");
-            print("5.- Salir");
+            print("0.- Salir");
             opcion: int = int(input("Seleccione una opción: "));
             
             match opcion:
@@ -22,7 +22,7 @@ def menu():
                     modificar_producto();
                 case 4:
                     eliminar_producto();
-                case 5:
+                case 0:
                     print("Saliendo del sistema...");
                     break;
                 case _:
