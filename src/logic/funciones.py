@@ -7,8 +7,10 @@ def limpiar_pantalla():
 
 def agregar_producto():
     limpiar_pantalla()
-    print("Agregar producto\n");
-    nombre: str = input("Ingrese el nombre del producto: ").capitalize().strip()
+    print("=========≠=========")
+    print("Agregar producto")
+    print("≠==================")
+    nombre: str = input("\nIngrese el nombre del producto: ").capitalize().strip()
     categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
     precio: float = float(input("Ingrese el precio del producto: "))
 
@@ -28,12 +30,14 @@ def agregar_producto():
 
 def mostrar_productos():
     limpiar_pantalla()  
-    print("Mostrar productos\n");
+    print("====================")
+    print("Mostrar productos");
+    print("====================")
     if len(productos) == 0:
-        print("No hay productos registrados");  
+        print("\nNo hay productos registrados");  
         input("\nPresione Enter para continuar...");
     else:
-        print("Productos registrados:");
+        print("\nProductos registrados:\n");
         contador: int = 1
         for producto in productos:
             print(f"\nIndice: {contador}\nNombre: {producto['nombre']}\nCategoría: {producto['categoria']}\nPrecio: {producto['precio']}\n");
@@ -42,7 +46,9 @@ def mostrar_productos():
 
 def modificar_producto():
     limpiar_pantalla()
-    print("Modificar producto\n");
+    print("========≠============")
+    print("Modificar producto");
+    print("========≠============")
     if len(productos) == 0:
         print("No hay productos registrados");
         input("\nPresione Enter para continuar...");
@@ -69,7 +75,9 @@ def modificar_producto():
 
 def eliminar_producto():
     limpiar_pantalla()
-    print("Eliminar producto\n");
+    print("========≠============")
+    print("Eliminar producto");
+    print("========≠============")
     mostrar_productos()
     if len(productos) == 0:
         print("No hay productos registrados");
