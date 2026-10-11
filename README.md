@@ -1,36 +1,38 @@
-# Sistema de Gestión de Productos
+# TalentoTech - Sistema de gestión de productos
 
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![License](https://img.shields.io/badge/Status-Funcional-success?style=for-the-badge)
+![SQLite](https://img.shields.io/badge/SQLite-Base%20de%20datos-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Status](https://img.shields.io/badge/Estado-Funcional-success?style=for-the-badge)
 
 </div>
 
 ## Descripción del proyecto
 
-Este proyecto consiste en una aplicación de consola desarrollada en Python para gestionar productos de manera simple, ordenada y eficiente. Su finalidad es facilitar la administración básica de un inventario, permitiendo registrar, consultar, actualizar y eliminar productos sin necesidad de una base de datos externa.
+TalentoTech es una aplicación de consola desarrollada en Python para gestionar un inventario de productos de forma simple y ordenada. El sistema permite registrar, consultar, actualizar y eliminar elementos, con persistencia de datos mediante SQLite.
 
-La aplicación ofrece una interfaz interactiva en consola, ideal para aprender lógica de programación, manejo de listas y validación de datos en Python.
+La aplicación está pensada para practicar lógica de programación, manejo de bases de datos y desarrollo de menús interactivos en consola.
 
 ## Objetivo
 
-Crear una herramienta práctica para administrar un inventario básico, que permita llevar un control sencillo de productos, precios y categorías en un entorno de consola.
+Crear una herramienta práctica para administrar productos, categorías y precios, manteniendo la información guardada de forma persistente sin necesidad de un servicio externo.
 
 ## Funcionalidades principales
 
-- Registrar nuevos productos
-- Consultar la lista completa de productos
-- Modificar la categoría y el precio de un producto
+- Agregar nuevos productos
+- Mostrar todos los productos registrados
+- Modificar información de un producto
 - Eliminar productos del inventario
-- Salir del sistema de manera segura
+- Mantener los datos persistentes en SQLite
+- Salir del sistema de forma segura
 
 ## Tecnologías utilizadas
 
 - Python 3
-- Listas y diccionarios
+- SQLite 3
+- Conexión a base de datos con `sqlite3`
 - Menú interactivo por consola
-- Lógica de control de flujo
 
 ## Requisitos del sistema
 
@@ -78,9 +80,11 @@ Crear una herramienta práctica para administrar un inventario básico, que perm
    python main.py
    ```
 
-## Cómo usar la aplicación
+> No se requieren dependencias externas adicionales, ya que la lógica se implementa con la librería estándar de Python y SQLite.
 
-Al iniciar el programa, aparecerá un menú con estas opciones:
+## Uso de la aplicación
+
+Al iniciar el programa, se mostrará un menú con las siguientes opciones:
 
 1. Agregar producto
 2. Mostrar productos
@@ -88,7 +92,7 @@ Al iniciar el programa, aparecerá un menú con estas opciones:
 4. Eliminar producto
 0. Salir
 
-Debe ingresar la opción deseada y seguir las instrucciones que aparecen en pantalla.
+Debes ingresar la opción deseada y seguir las instrucciones que aparecen en pantalla.
 
 ## Estructura del proyecto
 
@@ -96,23 +100,37 @@ Debe ingresar la opción deseada y seguir las instrucciones que aparecen en pant
 talentoTech/
 ├── main.py
 ├── README.md
-├── requirements.txt
-└── src/
-    └── logic/
-        ├── funciones.py
-        └── menu.py
+├── src/
+│   ├── data/
+│   │   ├── conectar.py
+│   │   └── dataprod.db
+│   └── logic/
+│       ├── funciones.py
+│       └── menu.py
+└── ttech/
+    └── Scripts/   (entorno virtual local)
 ```
 
 ### Archivos principales
 
-- `main.py`: punto de entrada del sistema
-- `src/logic/funciones.py`: contiene la lógica de gestión de productos
+- `main.py`: punto de entrada de la aplicación
+- `src/data/conectar.py`: gestiona la conexión a SQLite y crea la tabla `productos`
+- `src/data/dataprod.db`: base de datos local del sistema
+- `src/logic/funciones.py`: contiene la lógica para agregar, consultar, modificar y eliminar productos
 - `src/logic/menu.py`: define la interfaz del menú principal
-- `requirements.txt`: lista de dependencias del proyecto
+
+## Persistencia de datos
+
+La información se guarda en la base de datos SQLite ubicada en `src/data/dataprod.db`. La tabla `productos` incluye los siguientes campos:
+
+- `id`
+- `nombre`
+- `categoria`
+- `precio`
 
 ## Observaciones
 
-Este proyecto implementa una gestión básica de inventario en memoria. Los datos se mantienen mientras la aplicación está en ejecución y no incluyen almacenamiento persistente en base de datos ni archivos externos.
+Este proyecto implementa una gestión básica de inventario con almacenamiento persistente en base de datos local. La aplicación está orientada a consola y se usa como ejercicio de programación con Python y SQLite.
 
 ## Autor
 
@@ -120,4 +138,4 @@ Gregory Rodriguez
 
 ## Estado del proyecto
 
-Proyecto funcional y en desarrollo, orientado a la gestión básica de productos mediante una interfaz de consola.
+Proyecto funcional en desarrollo, con gestión básica de productos mediante consola y persistencia en SQLite.

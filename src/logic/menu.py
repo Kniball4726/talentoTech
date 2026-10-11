@@ -1,5 +1,17 @@
 from src.logic.funciones import agregar_producto, mostrar_productos, modificar_producto, eliminar_producto, limpiar_pantalla
 
+
+"""    Función que muestra el menú principal del sistema de gestión de productos.
+    Permite al usuario seleccionar una opción para agregar, mostrar, modificar o eliminar productos.
+    Si el usuario ingresa una opción inválida, se muestra un mensaje de error y se vuelve a mostrar el menú.
+    Si el usuario ingresa un valor no numérico, se muestra un mensaje de error y se vuelve a mostrar el menú.
+    Si el usuario presiona Ctrl+C, se muestra un mensaje de salida y se termina la ejecución del programa.
+    
+    Parámetros:
+    - Ninguno
+    Retorna:
+    - Ninguno
+"""
 def menu():
     limpiar_pantalla();
     try:

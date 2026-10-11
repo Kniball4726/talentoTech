@@ -7,11 +7,30 @@ import src.data.conectar as db
 productos:list = []
 conexion = db.conectar()
 
-
 def limpiar_pantalla():
+    """
+    Función para limpiar la pantalla de la consola.
+    Detecta el sistema operativo y ejecuta el comando correspondiente para limpiar la pantalla.
+    
+    Parámetros:
+    - Ninguno
+    Retorna:
+    - Ninguno"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def agregar_producto():
+    """
+    Función para agregar un nuevo producto a la base de datos.
+    Solicita al usuario que ingrese el nombre, categoría y precio del producto.
+    Luego, guarda el producto en la base de datos y pregunta al usuario si desea agregar otro producto.
+    Si el usuario responde 's', se llama recursivamente a la función para agregar otro producto.
+    Si el usuario responde 'n', se muestra un mensaje indicando que se regresará al menú principal.
+    
+    Parámetros:
+    - Ninguno
+    Retorna:
+    - Ninguno
+    """
     limpiar_pantalla()
     print("===================")
     print("Agregar producto")
@@ -43,6 +62,17 @@ def agregar_producto():
         input("\nRegresando al menú principal...")
 
 def mostrar_productos():
+    """
+    Función para mostrar todos los productos registrados en la base de datos.
+    Si no hay productos registrados, se muestra un mensaje indicando que no hay productos.
+    Si hay productos registrados, se muestran los detalles de cada producto (id, nombre, categoría y precio).
+    Al finalizar, se espera a que el usuario presione Enter para continuar.
+    
+    Parámetros:
+    - Ninguno
+    Retorna:
+    - Ninguno
+    """
     limpiar_pantalla()  
     print("====================")
     print("Mostrar productos");
@@ -66,8 +96,18 @@ def mostrar_productos():
     except sqlite3.Error as e:
         print(f"Error al obtener los productos: {e}")
 
-        
 def modificar_producto():
+    """
+    Función para modificar un producto existente en la base de datos.
+    Primero, se muestra la lista de productos registrados. Si no hay productos, se muestra un mensaje indicando que no hay productos registrados y se espera a que el usuario presione Enter para continuar.
+    Si hay productos registrados, se solicita al usuario que ingrese el índice del producto a modificar y se valida que el índice sea válido. Si el índice es válido, se solicita al usuario que ingrese los nuevos valores para el nombre, categoría y precio del producto.
+    Luego, se actualiza el producto en la base de datos y se muestra un mensaje indicando que el producto fue modificado correctamente.
+    Si el índice no es válido, se muestra un mensaje indicando que no se ha ingresado un índice válido y se espera a que el usuario presione Enter para continuar.
+    
+    Parámetros: Ninguno
+    Retorna: Ninguno
+    
+    """
     limpiar_pantalla()
     print("=====================")
     print("Modificar producto");
@@ -95,8 +135,16 @@ def modificar_producto():
 
 
 
-
 def eliminar_producto():
+    """
+    Función para eliminar un producto existente en la base de datos.
+    Primero, se muestra la lista de productos registrados. Si no hay productos, se muestra un mensaje indicando que no hay productos registrados y se espera a que el usuario presione Enter para continuar.
+    Si hay productos registrados, se solicita al usuario que ingrese el índice del producto a eliminar y se valida que el índice sea válido. Si el índice es válido, se elimina el producto de la base de datos y se muestra un mensaje indicando que el producto fue eliminado correctamente.
+    Si el índice no es válido, se muestra un mensaje indicando que no se ha ingresado un índice válido y se espera a que el usuario presione Enter para continuar.
+    
+    Parámetros: Ninguno
+    Retorna: Ninguno
+    """
     limpiar_pantalla()
     print("=====================")
     print("Eliminar producto");
@@ -104,6 +152,7 @@ def eliminar_producto():
     mostrar_productos()
     if len(db.obtener_productos()) == 0:
         print("No hay productos registrados");
+        input("\nPresione Enter para continuar...");
     else:
         indice: int = int(input("Ingrese el índice del producto a eliminar: "));
         if 1 <= indice <= len(db.obtener_productos()):
