@@ -1,27 +1,41 @@
 import os
+import sqlite3
+import src.data.conectar as db
+
+
 
 productos:list = []
+
+
 
 def limpiar_pantalla():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def agregar_producto():
     limpiar_pantalla()
-    print("=========≠=========")
+    print("===================")
     print("Agregar producto")
-    print("≠==================")
+    print("===================")
     nombre: str = input("\nIngrese el nombre del producto: ").capitalize().strip()
     categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
     precio: float = float(input("Ingrese el precio del producto: "))
 
-    producto: dict = {
-        "nombre": nombre,
-        "categoria": categoria,
-        "precio": precio
-    }
+    conexion = db.conectar()
+    if conexion is not None:
+        try:
+            conexion.execute(
+                "INSERT INTO productos (nombre, categoria, precio) VALUES (?, ?, ?)",
+                (nombre, categoria, precio),
+            )
+            conexion.commit()
+            print("\nProducto agregado correctamente")
+        except sqlite3.Error as e:
+            conexion.rollback()
+            print(f"\nError al guardar el producto: {e}")
+        finally:
+            db.cerrar_conexion(conexion)
 
-    productos.append(producto)
-    print("\nProducto agregado correctamente")
+    
     respuesta: str = input("\nDesea introducir otro producto? (s/n): ")
     if respuesta.lower() == 's':
         agregar_producto()
