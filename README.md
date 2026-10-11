@@ -1,78 +1,79 @@
-# TalentoTech - Sistema de gestión de productos
+# TalentoTech
+
+Sistema de gestión de productos desarrollado en Python con SQLite para llevar el control de inventario desde la consola.
 
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-Base%20de%20datos-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
-![Status](https://img.shields.io/badge/Estado-Funcional-success?style=for-the-badge)
+![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-orange?style=for-the-badge)
 
 </div>
 
-## Descripción del proyecto
+## Descripción
 
-TalentoTech es una aplicación de consola desarrollada en Python para gestionar un inventario de productos de forma simple y ordenada. El sistema permite registrar, consultar, actualizar y eliminar elementos, con persistencia de datos mediante SQLite.
+TalentoTech es una aplicación de consola para administrar un inventario de productos de forma simple y persistente. Permite registrar, listar, actualizar y eliminar artículos, manteniendo la información en una base de datos local SQLite.
 
-La aplicación está pensada para practicar lógica de programación, manejo de bases de datos y desarrollo de menús interactivos en consola.
+El proyecto está pensado como ejercicio de práctica en programación Python, estructuras de control, interacción por consola y manejo de bases de datos.
 
-## Objetivo
+## Funcionalidades
 
-Crear una herramienta práctica para administrar productos, categorías y precios, manteniendo la información guardada de forma persistente sin necesidad de un servicio externo.
-
-## Funcionalidades principales
-
-- Agregar nuevos productos
-- Mostrar todos los productos registrados
-- Modificar información de un producto
+- Registrar nuevos productos
+- Mostrar todos los productos almacenados
+- Modificar información de un producto existente
 - Eliminar productos del inventario
-- Mantener los datos persistentes en SQLite
-- Salir del sistema de forma segura
+- Guardar datos de forma persistente en SQLite
+- Menú interactivo para gestión rápida desde terminal
 
-## Tecnologías utilizadas
+## Tecnologías
 
 - Python 3
 - SQLite 3
-- Conexión a base de datos con `sqlite3`
-- Menú interactivo por consola
+- `sqlite3` (módulo de Python para la base de datos)
+- Menú por consola interactivo
+- PyInstaller (opcional, para empaquetar la aplicación)
 
-## Requisitos del sistema
+## Requisitos
 
 - Python 3.8 o superior
-- Sistema operativo Windows, Linux o macOS
+- Sistema operativo: Windows, Linux o macOS
 - Terminal o consola de comandos
 
 ## Instalación
 
-1. Clona este repositorio:
+1. Clona el repositorio:
 
    ```bash
    git clone https://github.com/Kniball4726/talentoTech.git
    ```
 
-2. Accede a la carpeta del proyecto:
+2. Entra en la carpeta del proyecto:
 
    ```bash
    cd talentoTech
    ```
 
-3. Crea un entorno virtual (opcional, pero recomendado):
+3. Crea y activa un entorno virtual (recomendado):
+
+   Windows:
 
    ```bash
    python -m venv .venv
+   .\.venv\Scripts\activate
    ```
 
-4. Activa el entorno virtual:
+   Linux/macOS:
 
-   - Windows:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-     ```bash
-     .\.venv\Scripts\activate
-     ```
+4. Instala las dependencias del proyecto:
 
-   - Linux/macOS:
-
-     ```bash
-     source .venv/bin/activate
-     ```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 5. Ejecuta la aplicación:
 
@@ -80,26 +81,15 @@ Crear una herramienta práctica para administrar productos, categorías y precio
    python main.py
    ```
 
-> No se requieren dependencias externas adicionales, ya que la lógica se implementa con la librería estándar de Python y SQLite.
-
-## Uso de la aplicación
-
-Al iniciar el programa, se mostrará un menú con las siguientes opciones:
-
-1. Agregar producto
-2. Mostrar productos
-3. Modificar producto
-4. Eliminar producto
-0. Salir
-
-Debes ingresar la opción deseada y seguir las instrucciones que aparecen en pantalla.
-
 ## Estructura del proyecto
 
 ```text
 talentoTech/
-├── main.py
+├── LICENSE
 ├── README.md
+├── main.py
+├── requirements.txt
+├── .gitignore
 ├── src/
 │   ├── data/
 │   │   ├── conectar.py
@@ -107,35 +97,55 @@ talentoTech/
 │   └── logic/
 │       ├── funciones.py
 │       └── menu.py
-└── ttech/
-    └── Scripts/   (entorno virtual local)
+└── ttech/                  # entorno virtual local (si se creó)
+    └── ...
 ```
 
 ### Archivos principales
 
-- `main.py`: punto de entrada de la aplicación
-- `src/data/conectar.py`: gestiona la conexión a SQLite y crea la tabla `productos`
-- `src/data/dataprod.db`: base de datos local del sistema
-- `src/logic/funciones.py`: contiene la lógica para agregar, consultar, modificar y eliminar productos
-- `src/logic/menu.py`: define la interfaz del menú principal
+- `main.py`: punto de entrada de la aplicación.
+- `src/data/conectar.py`: establece la conexión a la base de datos y crea la tabla `productos` si no existe.
+- `src/data/dataprod.db`: base de datos local del sistema.
+- `src/logic/funciones.py`: contiene la lógica para agregar, mostrar, modificar y eliminar productos.
+- `src/logic/menu.py`: define el menú principal del programa.
 
-## Persistencia de datos
+## Uso
 
-La información se guarda en la base de datos SQLite ubicada en `src/data/dataprod.db`. La tabla `productos` incluye los siguientes campos:
+Al iniciar el programa, se muestra un menú con estas opciones:
 
-- `id`
-- `nombre`
-- `categoria`
-- `precio`
+1. Agregar producto
+2. Mostrar productos
+3. Modificar producto
+4. Eliminar producto
+0. Salir
 
-## Observaciones
+El usuario debe ingresar la opción deseada y completar la información solicitada en cada operación.
 
-Este proyecto implementa una gestión básica de inventario con almacenamiento persistente en base de datos local. La aplicación está orientada a consola y se usa como ejercicio de programación con Python y SQLite.
+## Crear un ejecutable
+
+PyInstaller está incluido en `requirements.txt`. Después de instalar las dependencias, puedes crear el ejecutable directamente desde `main.py` desde la carpeta raíz del proyecto:
+
+```bash
+pyinstaller --onefile main.py
+```
+
+PyInstaller genera un único archivo ejecutable dentro de `dist/`: en Windows será `dist/main.exe`; en Linux o macOS será `dist/main`. La opción `--onefile` empaqueta la aplicación en un solo archivo y conserva la consola, necesaria para interactuar con el menú.
+
+PyInstaller genera el ejecutable para el sistema operativo en el que se ejecuta; para distribuirlo en otro sistema operativo, debes volver a generarlo allí.
+
+## Modelo de datos
+
+La base de datos SQLite almacena los productos en la tabla `productos` con la siguiente estructura:
+
+- `id`: identificador único
+- `nombre`: nombre del producto
+- `categoria`: categoría a la que pertenece
+- `precio`: valor del producto
+
+## Estado del proyecto
+
+Este proyecto se encuentra en desarrollo como una herramienta funcional básica de inventario para consola, con persistencia local mediante SQLite.
 
 ## Autor
 
 Gregory Rodriguez
-
-## Estado del proyecto
-
-Proyecto funcional en desarrollo, con gestión básica de productos mediante consola y persistencia en SQLite.
