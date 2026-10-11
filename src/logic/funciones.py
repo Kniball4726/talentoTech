@@ -46,9 +46,9 @@ def mostrar_productos():
 
 def modificar_producto():
     limpiar_pantalla()
-    print("========≠============")
+    print("=====================")
     print("Modificar producto");
-    print("========≠============")
+    print("=====================")
     if len(productos) == 0:
         print("No hay productos registrados");
         input("\nPresione Enter para continuar...");
@@ -75,9 +75,9 @@ def modificar_producto():
 
 def eliminar_producto():
     limpiar_pantalla()
-    print("========≠============")
+    print("=====================")
     print("Eliminar producto");
-    print("========≠============")
+    print("=====================")
     mostrar_productos()
     if len(productos) == 0:
         print("No hay productos registrados");
