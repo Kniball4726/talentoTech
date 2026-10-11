@@ -5,7 +5,7 @@ import src.data.conectar as db
 
 
 productos:list = []
-
+conexion = db.conectar()
 
 
 def limpiar_pantalla():
@@ -20,7 +20,7 @@ def agregar_producto():
     categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
     precio: float = float(input("Ingrese el precio del producto: "))
 
-    conexion = db.conectar()
+    
     if conexion is not None:
         try:
             conexion.execute(
@@ -47,33 +47,42 @@ def mostrar_productos():
     print("====================")
     print("Mostrar productos");
     print("====================")
-    if len(productos) == 0:
-        print("\nNo hay productos registrados");  
-        input("\nPresione Enter para continuar...");
-    else:
-        print("\nProductos registrados:\n");
-        contador: int = 1
-        for producto in productos:
-            print(f"\nIndice: {contador}\nNombre: {producto['nombre']}\nCategoría: {producto['categoria']}\nPrecio: {producto['precio']}\n");
-            contador += 1
-        input("\nPresione Enter para continuar...");
+    try:
+        conexion = db.conectar()
+        if conexion is None:
+            print("No se pudo conectar a la base de datos.")
+            return
+        else:
+            consulta = conexion.execute("SELECT * FROM productos")
+            registros = consulta.fetchall()
+            if len(registros) == 0:
+                print("No hay productos registrados")
+                input("\nPresione Enter para continuar...")
+                return
+            else:
+                for fila in registros:
+                    print(f"id: {fila[0]}\nNombre: {fila[1]}\nCategoría: {fila[2]}\nPrecio: {fila[3]}\n")
+                input("\nPresione Enter para continuar...")
+    except sqlite3.Error as e:
+        print(f"Error al obtener los productos: {e}")
 
+        
 def modificar_producto():
     limpiar_pantalla()
     print("=====================")
     print("Modificar producto");
     print("=====================")
-    if len(productos) == 0:
+    if len(db.obtener_productos()) == 0:
         print("No hay productos registrados");
         input("\nPresione Enter para continuar...");
     else:
         mostrar_productos()
         indice: int = int(input("\nIngrese el indice del producto a modificar: "));
-        if (indice < 1 or indice > len(productos)):
+        if (indice < 1 or indice > len(db.obtener_productos())):
             print("No se ha ingresado un indice válido");
             input("\nPresione Enter para continuar...");
         else:
-            producto = productos[indice - 1]
+            producto = db.obtener_productos()[indice - 1]
             nombre: str = input("\nIngrese el nuevo nombre del producto: ").capitalize().strip();
             categoria: str = input("Ingrese la nueva categoría del producto: ").capitalize().strip();
             precio: float = float(input("Ingrese el nuevo precio del producto: "));
@@ -93,13 +102,13 @@ def eliminar_producto():
     print("Eliminar producto");
     print("=====================")
     mostrar_productos()
-    if len(productos) == 0:
+    if len(db.obtener_productos()) == 0:
         print("No hay productos registrados");
     else:
         indice: int = int(input("Ingrese el índice del producto a eliminar: "));
-        if 1 <= indice <= len(productos):
-            producto = productos[indice - 1]
-            productos.remove(producto);
+        if 1 <= indice <= len(db.obtener_productos()):
+            producto = db.obtener_productos()[indice - 1]
+            db.eliminar_producto(producto);
             print("\nProducto eliminado correctamente");
             input("\nPresione Enter para continuar...");
             return;
