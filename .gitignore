@@ -1,2 +1,5 @@
 ttech
 .venv
+main.spec
+build
+dist
