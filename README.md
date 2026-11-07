@@ -1,150 +1,161 @@
 # TalentoTech
 
-Sistema de gestión de productos desarrollado en Python con SQLite para llevar el control de inventario desde la consola.
+Sistema de inventario de consola desarrollado con Python y SQLite. Este documento incluye el manual de uso por rol y una guía para desarrolladores.
 
-<div align="center">
+## Manual de usuario
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-Base%20de%20datos-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
-![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-orange?style=for-the-badge)
+### Inicio de sesión
 
-</div>
+1. Ejecuta la aplicación y escribe tu nombre de usuario y contraseña.
+2. En una base de datos nueva, la aplicación crea una cuenta inicial si aún no existe:
+   - Usuario: `Admin`
+   - Contraseña: `Admin`
+3. No uses las credenciales iniciales en entornos compartidos o con datos sensibles.
 
-## Descripción
+Después de iniciar sesión se muestra el menú principal. Todos los usuarios pueden operar con productos; las cuentas con rol `Admin` también tienen acceso a la gestión de usuarios.
 
-TalentoTech es una aplicación de consola para administrar un inventario de productos de forma simple y persistente. Permite registrar, listar, actualizar y eliminar artículos, manteniendo la información en una base de datos local SQLite.
+### Funciones disponibles para `Usuario` y `Admin`
 
-El proyecto está pensado como ejercicio de práctica en programación Python, estructuras de control, interacción por consola y manejo de bases de datos.
+En el menú principal:
 
-## Funcionalidades
+1. **Agregar producto:** ingresa nombre, descripción, cantidad, categoría y precio.
+2. **Mostrar productos:** consulta los productos y sus ID.
+3. **Modificar producto:** ingresa el ID del producto y los nuevos valores. Presiona Enter en los campos que quieras conservar. Cantidad y precio deben ser valores numéricos no negativos.
+4. **Eliminar producto:** ingresa el ID del producto que deseas borrar.
+5. **Salir:** cierra el menú principal y termina la sesión.
 
-- Registrar nuevos productos
-- Mostrar todos los productos almacenados
-- Modificar información de un producto existente
-- Eliminar productos del inventario
-- Guardar datos de forma persistente en SQLite
-- Menú interactivo para gestión rápida desde terminal
+### Funciones adicionales para `Admin`
 
-## Tecnologías
+La opción **5. Gestionar usuarios** abre el menú de usuarios:
 
-- Python 3
-- SQLite 3
-- `sqlite3` (módulo de Python para la base de datos)
-- Menú por consola interactivo
-- PyInstaller (opcional, para empaquetar la aplicación)
+1. **Agregar usuario:** solicita nombre, apellido, correo electrónico, contraseña y rol (`Admin` o `Usuario`).
+2. **Mostrar usuarios:** lista el ID, nombre y rol de cada cuenta.
+3. **Modificar usuario:** permite cambiar el nombre y el rol de una cuenta seleccionada por ID.
+4. **Eliminar usuario:** elimina la cuenta seleccionada por ID.
+5. **Volver al menú principal:** cierra el menú de usuarios y regresa al menú anterior.
 
-## Requisitos
+## Manual del desarrollador
 
-- Python 3.8 o superior
-- Sistema operativo: Windows, Linux o macOS
-- Terminal o consola de comandos
+### Requisitos
 
-## Instalación
+- Python 3.10 o superior.
+- SQLite 3, incluido en la biblioteca estándar de Python.
+- Colorama para los colores de la consola.
+- PyInstaller para generar un ejecutable (opcional).
+- Windows, Linux o macOS.
 
-1. Clona el repositorio:
+### Preparar el entorno
 
-   ```bash
-   git clone https://github.com/Kniball4726/talentoTech.git
-   ```
+Clona el repositorio y entra en su directorio:
 
-2. Entra en la carpeta del proyecto:
+```bash
+git clone https://github.com/Kniball4726/talentoTech.git
+cd talentoTech
+```
 
-   ```bash
-   cd talentoTech
-   ```
+Crea y activa un entorno virtual (recomendado).
 
-3. Crea y activa un entorno virtual (recomendado):
+Windows:
 
-   Windows:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
-   ```bash
-   python -m venv .venv
-   .\.venv\Scripts\activate
-   ```
+Linux/macOS:
 
-   Linux/macOS:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
+Instala las dependencias:
 
-4. Instala las dependencias del proyecto:
+```bash
+pip install -r requirements.txt
+pip install colorama
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+Ejecuta la aplicación desde la raíz del proyecto:
 
-5. Ejecuta la aplicación:
+```bash
+python main.py
+```
 
-   ```bash
-   python main.py
-   ```
-
-## Estructura del proyecto
+### Estructura del proyecto
 
 ```text
 talentoTech/
-├── LICENSE
-├── README.md
 ├── main.py
+├── main.spec
 ├── requirements.txt
-├── .gitignore
-├── src/
-│   ├── data/
-│   │   ├── conectar.py
-│   │   └── dataprod.db
-│   └── logic/
-│       ├── funciones.py
-│       └── menu.py
-└── ttech/                  # entorno virtual local (si se creó)
-    └── ...
+├── README.md
+└── src/
+    ├── data/
+    │   ├── conectar.py
+    │   └── inventario.db
+    ├── gui/
+    │   ├── login.py
+    │   ├── principal.py
+    │   └── usuarios.py
+    └── logic/
+        ├── productos.py
+        └── usuarios.py
 ```
 
-### Archivos principales
+- `main.py`: punto de entrada; inicia el login.
+- `src/gui/login.py`: solicita credenciales y dirige al menú con el rol autenticado.
+- `src/gui/principal.py`: menú de productos y acceso de administradores al menú de usuarios.
+- `src/gui/usuarios.py`: menú de gestión de usuarios.
+- `src/logic/productos.py`: autenticación y operaciones de inventario.
+- `src/logic/usuarios.py`: operaciones de administración de cuentas.
+- `src/data/conectar.py`: conexión SQLite, creación de tablas y cuenta inicial.
+- `src/data/inventario.db`: base de datos local.
 
-- `main.py`: punto de entrada de la aplicación.
-- `src/data/conectar.py`: establece la conexión a la base de datos y crea la tabla `productos` si no existe.
-- `src/data/dataprod.db`: base de datos local del sistema.
-- `src/logic/funciones.py`: contiene la lógica para agregar, mostrar, modificar y eliminar productos.
-- `src/logic/menu.py`: define el menú principal del programa.
+### Base de datos
 
-## Uso
+La ruta configurada es `src/data/inventario.db`, relativa al directorio de trabajo. Ejecuta `main.py` desde la raíz para evitar que SQLite cree o busque la base en otra ubicación. Al conectarse, el programa crea las tablas si no existen.
 
-Al iniciar el programa, se muestra un menú con estas opciones:
+Tabla `productos`:
 
-1. Agregar producto
-2. Mostrar productos
-3. Modificar producto
-4. Eliminar producto
-0. Salir
+| Campo           | Tipo/uso             |
+| --------------- | -------------------- |
+| `id`          | Identificador único |
+| `nombre`      | Nombre del producto  |
+| `descripcion` | Descripción         |
+| `cantidad`    | Unidades disponibles |
+| `precio`      | Precio               |
+| `categoria`   | Categoría           |
 
-El usuario debe ingresar la opción deseada y completar la información solicitada en cada operación.
+Tabla `usuarios`:
 
-## Crear un ejecutable
+| Campo          | Tipo/uso                |
+| -------------- | ----------------------- |
+| `id`         | Identificador único    |
+| `nombre`     | Nombre de usuario       |
+| `apellido`   | Apellido                |
+| `email`      | Correo electrónico     |
+| `contrasena` | Contraseña             |
+| `rol`        | `Admin` o `Usuario` |
 
-PyInstaller está incluido en `requirements.txt`. Después de instalar las dependencias, puedes crear el ejecutable directamente desde `main.py` desde la carpeta raíz del proyecto:
+**Nota de seguridad:** la implementación actual guarda y compara contraseñas directamente en SQLite. Antes de usarla fuera de un entorno de aprendizaje, cambia este comportamiento por almacenamiento de contraseñas con hash y evita las credenciales iniciales.
+
+### Generar un ejecutable
+
+Desde la raíz del proyecto:
 
 ```bash
 pyinstaller --onefile main.py
 ```
 
-PyInstaller genera un único archivo ejecutable dentro de `dist/`: en Windows será `dist/main.exe`; en Linux o macOS será `dist/main`. La opción `--onefile` empaqueta la aplicación en un solo archivo y conserva la consola, necesaria para interactuar con el menú.
+PyInstaller genera el ejecutable en `dist/`. La base de datos no se incluye automáticamente: al ejecutar el programa, debe estar disponible en `src/data/inventario.db` relativo al directorio de trabajo.
 
-PyInstaller genera el ejecutable para el sistema operativo en el que se ejecuta; para distribuirlo en otro sistema operativo, debes volver a generarlo allí.
+## Tecnologías
 
-## Modelo de datos
-
-La base de datos SQLite almacena los productos en la tabla `productos` con la siguiente estructura:
-
-- `id`: identificador único
-- `nombre`: nombre del producto
-- `categoria`: categoría a la que pertenece
-- `precio`: valor del producto
-
-## Estado del proyecto
-
-Este proyecto se encuentra en desarrollo como una herramienta funcional básica de inventario para consola, con persistencia local mediante SQLite.
+- Python
+- SQLite (`sqlite3`)
+- Colorama
+- PyInstaller (opcional)
 
 ## Autor
 
