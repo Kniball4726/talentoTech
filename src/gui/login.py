@@ -1,6 +1,6 @@
 from colorama import Fore, Style, Back, init
-from src.logic.funciones import limpiar_pantalla, loguear
-from src.gui.menu import menu
+from src.logic.productos import limpiar_pantalla, loguear
+from src.gui.principal import menu
 
 init(autoreset=True)
 

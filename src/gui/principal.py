@@ -1,4 +1,4 @@
-from src.logic.funciones import agregar_producto, mostrar_productos, modificar_producto, eliminar_producto, limpiar_pantalla
+from src.logic.productos import agregar_producto, mostrar_productos, modificar_producto, eliminar_producto, limpiar_pantalla
 from colorama import Fore, Back, Style, init
 
 init(autoreset=True)
@@ -45,6 +45,13 @@ def menu(rol: str):
                     modificar_producto();
                 case 4:
                     eliminar_producto();
+                case 5:
+                    if rol == "Admin":
+                        from src.gui.usuarios import menu_usuarios
+                        menu_usuarios();
+                    else:
+                        print(Fore.RED+Style.BRIGHT+"\nError: Opción inválida. Solo los administradores pueden gestionar usuarios.");
+                        input("\nPresione Enter para continuar...");
                 case 0:
                     print("Saliendo del sistema...");
                     break;

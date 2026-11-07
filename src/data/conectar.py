@@ -1,6 +1,5 @@
 import sqlite3
 
-
 def conectar():
     """
     Función para establecer una conexión con la base de datos SQLite.
@@ -53,11 +52,11 @@ def conectar():
 
 def cerrar_conexion(conexion):
     """
-    Función para cerrar la conexión a la base de datos SQLite.
+    Función para cerrar la conexión con la base de datos SQLite.
     Parámetros:
     - conexion: Objeto de conexión a la base de datos
     Retorna:
     - Ninguno
     """
-    if conexion is not None:
+    if conexion:
         conexion.close()
