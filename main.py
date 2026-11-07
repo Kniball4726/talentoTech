@@ -1,4 +1,4 @@
-from src.logic.menu import menu
+from src.gui.login import login
 
 """
     Punto de entrada principal del programa.
@@ -16,4 +16,4 @@ from src.logic.menu import menu
 if __name__ == "__main__":
     """    Ejecuta la función `menu()` para mostrar el menú principal del sistema de gestión de productos.
     """
-    menu();
+    login();

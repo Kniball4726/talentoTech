@@ -1,4 +1,8 @@
 from src.logic.funciones import agregar_producto, mostrar_productos, modificar_producto, eliminar_producto, limpiar_pantalla
+from colorama import Fore, Back, Style, init
+
+init(autoreset=True)
+
 
 
 """    Función que muestra el menú principal del sistema de gestión de productos.
@@ -17,13 +21,15 @@ def menu():
     try:
         while True:
             limpiar_pantalla();
-            print("Bienvenido al sistema de gestión de productos\n");
+            print(Fore.YELLOW+Style.BRIGHT+"=================================================");
+            print(Fore.GREEN+Style.BRIGHT+"Bienvenido al sistema de gestión de productos");
+            print(Fore.YELLOW+Style.BRIGHT+"=================================================");
             print("1.- Agregar producto");
             print("2.- Mostrar productos");
             print("3.- Modificar producto");
             print("4.- Eliminar producto");
             print("0.- Salir");
-            opcion: int = int(input("\nSeleccione una opción: "));
+            opcion: int = int(input(Fore.GREEN+Style.BRIGHT+"\nSeleccione una opción: "));
             
             match opcion:
                 case 1:
@@ -41,11 +47,11 @@ def menu():
                     print("Opción inválida, por favor seleccione una opción válida");
 
     except ValueError:
-        input("\nError: Debe ingresar un número entero para seleccionar una opción");
+        input(Fore.RED+Style.BRIGHT+"\nError: Debe ingresar un número entero para seleccionar una opción");
         menu();
     except KeyboardInterrupt:
-        print("\n\nSaliendo del sistema...\n");
+        print(Fore.RED+Style.BRIGHT+"\n\nSaliendo del sistema...\n");
     except Exception as e:
-        print(f"\nError inesperado: {e}");
+        print(Fore.RED+Style.BRIGHT+f"\nError inesperado: {e}");
 
 

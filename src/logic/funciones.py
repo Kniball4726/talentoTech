@@ -1,11 +1,12 @@
+from colorama import Fore, Back, Style, init
 import os
 import sqlite3
 import src.data.conectar as db
 
-
-
 productos:list = []
 conexion = db.conectar()
+
+init(autoreset=True)
 
 def limpiar_pantalla():
     """
@@ -17,6 +18,36 @@ def limpiar_pantalla():
     Retorna:
     - Ninguno"""
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def loguear(username, password):
+    """
+    Función para autenticar a un usuario en el sistema.
+    Compara el nombre de usuario y la contraseña ingresados con los registros de la base de datos.
+    
+    Parámetros:
+    - username: Nombre de usuario ingresado por el usuario
+    - password: Contraseña ingresada por el usuario
+    Retorna:
+    - True si la autenticación es exitosa, False en caso contrario
+    """
+    conexion = db.conectar()
+    if conexion:
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT * FROM usuarios WHERE nombre=? AND contrasena=?", (username, password))
+            user = cursor.fetchone()
+            if user:
+                return True
+            else:
+                return False
+        except sqlite3.Error as e:
+            print(Fore.RED+Style.BRIGHT+f"Error al autenticar al usuario: {e}")
+            return False
+        finally:
+            db.cerrar_conexion(conexion)
+    else:
+        print(Fore.RED+Style.BRIGHT+"No se pudo conectar a la base de datos.")
+        return False
 
 def agregar_producto():
     """
@@ -32,9 +63,9 @@ def agregar_producto():
     - Ninguno
     """
     limpiar_pantalla()
-    print("===================")
-    print("Agregar producto")
-    print("===================")
+    print(Fore.YELLOW+Style.BRIGHT+"===================")
+    print(Fore.GREEN+Style.BRIGHT+"Agregar producto")
+    print(Fore.YELLOW+Style.BRIGHT+"===================")
     nombre: str = input("\nIngrese el nombre del producto: ").capitalize().strip()
     categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
     precio: float = float(input("Ingrese el precio del producto: "))
@@ -74,19 +105,19 @@ def mostrar_productos():
     - Ninguno
     """
     limpiar_pantalla()  
-    print("====================")
-    print("Mostrar productos");
-    print("====================")
-    try:
-        conexion = db.conectar()
+    print(Fore.YELLOW+Style.BRIGHT+"====================")
+    print(Fore.GREEN+Style.BRIGHT+"Mostrar productos")
+    print(Fore.YELLOW+Style.BRIGHT+"====================")
+    try:        
         if conexion is None:
-            print("No se pudo conectar a la base de datos.")
+            print(Fore.RED+Style.BRIGHT+"No se pudo conectar a la base de datos.")
+            input("\nPresione Enter para continuar...")
             return
         else:
             consulta = conexion.execute("SELECT * FROM productos")
             registros = consulta.fetchall()
             if len(registros) == 0:
-                print("No hay productos registrados")
+                print(Fore.RED+Style.BRIGHT+"No hay productos registrados")
                 input("\nPresione Enter para continuar...")
                 return
             else:
@@ -94,7 +125,9 @@ def mostrar_productos():
                     print(f"id: {fila[0]}\nNombre: {fila[1]}\nCategoría: {fila[2]}\nPrecio: {fila[3]}\n")
                 input("\nPresione Enter para continuar...")
     except sqlite3.Error as e:
-        print(f"Error al obtener los productos: {e}")
+        print(Fore.RED+Style.BRIGHT+f"Error al obtener los productos: {e}")
+        input("\nPresione Enter para continuar...")
+
 
 def modificar_producto():
     """
@@ -109,17 +142,17 @@ def modificar_producto():
     
     """
     limpiar_pantalla()
-    print("=====================")
-    print("Modificar producto");
-    print("=====================")
-    if len(db.obtener_productos()) == 0:
-        print("No hay productos registrados");
+    print(Fore.YELLOW+Style.BRIGHT+"=====================")
+    print(Fore.GREEN+Style.BRIGHT+"Modificar producto")
+    print(Fore.YELLOW+Style.BRIGHT+"=====================")
+    if len(conexion) == 0:
+        print(Fore.RED+Style.BRIGHT+"No hay productos registrados");
         input("\nPresione Enter para continuar...");
     else:
         mostrar_productos()
         indice: int = int(input("\nIngrese el indice del producto a modificar: "));
         if (indice < 1 or indice > len(db.obtener_productos())):
-            print("No se ha ingresado un indice válido");
+            print(Fore.RED+Style.BRIGHT+"No se ha ingresado un indice válido");
             input("\nPresione Enter para continuar...");
         else:
             producto = db.obtener_productos()[indice - 1]
@@ -146,12 +179,12 @@ def eliminar_producto():
     Retorna: Ninguno
     """
     limpiar_pantalla()
-    print("=====================")
-    print("Eliminar producto");
-    print("=====================")
+    print(Fore.YELLOW+Style.BRIGHT+"=====================")
+    print(Fore.GREEN+Style.BRIGHT+"Eliminar producto")
+    print(Fore.YELLOW+Style.BRIGHT+"=====================")
     mostrar_productos()
     if len(db.obtener_productos()) == 0:
-        print("No hay productos registrados");
+        print(Fore.RED+Style.BRIGHT+"No hay productos registrados");
         input("\nPresione Enter para continuar...");
     else:
         indice: int = int(input("Ingrese el índice del producto a eliminar: "));
@@ -162,5 +195,5 @@ def eliminar_producto():
             input("\nPresione Enter para continuar...");
             return;
         else:
-            print("\nProducto no encontrado");
+            print(Fore.RED+Style.BRIGHT+"\nProducto no encontrado");
             input("\nPresione Enter para continuar...");
