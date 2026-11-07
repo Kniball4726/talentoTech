@@ -16,7 +16,7 @@ init(autoreset=True)
     Retorna:
     - Ninguno
 """
-def menu():
+def menu(rol: str):
     limpiar_pantalla();
     try:
         while True:
@@ -28,9 +28,14 @@ def menu():
             print("2.- Mostrar productos");
             print("3.- Modificar producto");
             print("4.- Eliminar producto");
-            print("0.- Salir");
+            if rol != "Admin":
+               print("0.- Salir");
+            else:
+                print("5.- Gestionar usuarios");
+                print("0.- Salir");
+
             opcion: int = int(input(Fore.GREEN+Style.BRIGHT+"\nSeleccione una opción: "));
-            
+
             match opcion:
                 case 1:
                     agregar_producto();
@@ -48,10 +53,8 @@ def menu():
 
     except ValueError:
         input(Fore.RED+Style.BRIGHT+"\nError: Debe ingresar un número entero para seleccionar una opción");
-        menu();
+        menu(rol);
     except KeyboardInterrupt:
         print(Fore.RED+Style.BRIGHT+"\n\nSaliendo del sistema...\n");
     except Exception as e:
         print(Fore.RED+Style.BRIGHT+f"\nError inesperado: {e}");
-
-

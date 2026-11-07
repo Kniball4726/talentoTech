@@ -13,14 +13,16 @@ def conectar():
     conexion = None
     try:
         # Intentar conectarse a la base de datos
-        conexion = sqlite3.connect("src/data/dataprod.db")
+        conexion = sqlite3.connect("src/data/inventario.db")
         
         conexion.execute("""
             CREATE TABLE IF NOT EXISTS productos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre TEXT NOT NULL,
-                categoria TEXT NOT NULL,
-                precio REAL NOT NULL )
+                descripcion TEXT NOT NULL,
+                cantidad INTEGER NOT NULL,
+                precio REAL NOT NULL,
+                categoria TEXT NOT NULL )
             """)
 
         conexion.execute("""
@@ -44,8 +46,6 @@ def conectar():
                 usuario_admin,
             )
         conexion.commit()
-        
-                
         return conexion
     except sqlite3.Error as e:
         input(f"Error al conectar a la base de datos: {e}")
@@ -61,27 +61,3 @@ def cerrar_conexion(conexion):
     """
     if conexion is not None:
         conexion.close()
-
-def obtener_productos():
-    """
-    Función para obtener todos los productos de la base de datos.
-    Parámetros:
-    - Ninguno
-    Retorna:
-    - Lista de tuplas con los productos o None en caso de error
-    """
-    conexion = conectar()
-    if conexion is not None:
-        try:
-            cursor = conexion.cursor()
-            cursor.execute("SELECT * FROM productos")
-            productos = cursor.fetchall()
-            return productos
-        except sqlite3.Error as e:
-            print(f"Error al obtener los productos: {e}")
-            return None
-        finally:
-            cerrar_conexion(conexion)
-    else:
-        print("No se pudo conectar a la base de datos.")
-        return None

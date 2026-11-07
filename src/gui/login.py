@@ -1,5 +1,6 @@
 from colorama import Fore, Style, Back, init
 from src.logic.funciones import limpiar_pantalla, loguear
+from src.gui.menu import menu
 
 init(autoreset=True)
 
@@ -13,13 +14,13 @@ def login():
         print(Fore.YELLOW+Style.BRIGHT+"=====================================================")
         print("\nIndique su usuario y contraseña para continuar (presione Enter para continuar)")
         nombre_usuario: str = input("\nUsuario: ").strip().capitalize()
-        contrasena: str = input("Contraseña: ").strip()
+        contrasena: str = input("Contraseña: ").strip().capitalize()
 
     
-        if (loguear(nombre_usuario, contrasena)):
+        autenticado, rol = loguear(nombre_usuario, contrasena)
+        if autenticado and rol is not None:
             input(Fore.GREEN+Style.BRIGHT+"\nInicio de sesión exitoso, presione Enter para continuar...")
-            from src.gui.menu import menu
-            menu()
+            menu(rol)
         else:
             global veces
             if veces == 3:
@@ -35,6 +36,5 @@ def login():
         login()
     except KeyboardInterrupt:
         print(Fore.RED+Style.BRIGHT+"\n\nSaliendo del sistema...\n")
-
 
 

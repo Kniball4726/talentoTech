@@ -1,6 +1,7 @@
 from colorama import Fore, Back, Style, init
 import os
 import sqlite3
+from typing import Optional, Tuple
 import src.data.conectar as db
 
 productos:list = []
@@ -19,7 +20,7 @@ def limpiar_pantalla():
     - Ninguno"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def loguear(username, password):
+def loguear(username: str, password: str) -> Tuple[bool, Optional[str]]:
     """
     Función para autenticar a un usuario en el sistema.
     Compara el nombre de usuario y la contraseña ingresados con los registros de la base de datos.
@@ -37,17 +38,15 @@ def loguear(username, password):
             cursor.execute("SELECT * FROM usuarios WHERE nombre=? AND contrasena=?", (username, password))
             user = cursor.fetchone()
             if user:
-                return True
+                return True, user[5]  # Retorna True y el rol del usuario
             else:
-                return False
+                return False, None
         except sqlite3.Error as e:
             print(Fore.RED+Style.BRIGHT+f"Error al autenticar al usuario: {e}")
-            return False
-        finally:
-            db.cerrar_conexion(conexion)
+            return False, None
     else:
         print(Fore.RED+Style.BRIGHT+"No se pudo conectar a la base de datos.")
-        return False
+        return False, None
 
 def agregar_producto():
     """
@@ -67,6 +66,8 @@ def agregar_producto():
     print(Fore.GREEN+Style.BRIGHT+"Agregar producto")
     print(Fore.YELLOW+Style.BRIGHT+"===================")
     nombre: str = input("\nIngrese el nombre del producto: ").capitalize().strip()
+    descripcion: str = input("Ingrese la descripción del producto: ").capitalize().strip()
+    cantidad: int = int(input("Ingrese la cantidad del producto: "))
     categoria: str = input("Ingrese la categoría del producto: ").capitalize().strip()
     precio: float = float(input("Ingrese el precio del producto: "))
 
@@ -74,8 +75,8 @@ def agregar_producto():
     if conexion is not None:
         try:
             conexion.execute(
-                "INSERT INTO productos (nombre, categoria, precio) VALUES (?, ?, ?)",
-                (nombre, categoria, precio),
+                "INSERT INTO productos (nombre, descripcion, cantidad, categoria, precio) VALUES (?, ?, ?, ?, ?)",
+                (nombre, descripcion, cantidad, categoria, precio),
             )
             conexion.commit()
             print("\nProducto agregado correctamente")
