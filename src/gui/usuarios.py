@@ -6,7 +6,10 @@ import src.data.conectar as db
 
 init(autoreset=True)
 
-def menu_usuarios():
+def menu_usuarios(rol: str):
+    if rol != "Admin":
+        print(Fore.RED+Style.BRIGHT+"\nAcceso denegado. Se requiere el rol Admin.")
+        return
     limpiar_pantalla();
     try:
         while True:
@@ -24,13 +27,13 @@ def menu_usuarios():
 
             match opcion:
                 case 1:
-                    agregar_usuario();
+                    agregar_usuario(rol);
                 case 2:
-                    mostrar_usuarios();
+                    mostrar_usuarios(rol);
                 case 3:
-                    modificar_usuario();
+                    modificar_usuario(rol);
                 case 4:
-                    eliminar_usuario();
+                    eliminar_usuario(rol);
                 case 0:
                     return
                 case _:

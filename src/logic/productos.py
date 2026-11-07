@@ -2,9 +2,9 @@ from colorama import Fore, Back, Style, init
 import sqlite3
 import os
 import src.data.conectar as db
+from src.logic.autenticacion import autenticar
 
 productos:list = []
-conexion = db.conectar()
 
 init(autoreset=True)
 
@@ -30,32 +30,8 @@ def loguear(username, password):
     Retorna:
     - True si la autenticación es exitosa, False en caso contrario
     """
-    try:
-        conexion = db.conectar()
-
-        if conexion:
-            cursor = conexion.cursor()
-            cursor.execute("SELECT * FROM usuarios WHERE nombre=? AND contrasena=?", (username, password))
-            user = cursor.fetchone()
-            if user:
-                return True, user[5]  # Retorna True y el rol del usuario
-            else:
-                return False, None
-        else:
-            print(Fore.RED+Style.BRIGHT+"No se pudo conectar a la base de datos.")
-            return False, None
-        
-    except sqlite3.Error as e:
-            print(Fore.RED+Style.BRIGHT+f"Error al autenticar al usuario: {e}")
-            return False, None
-    except Exception as e:
-        print(Fore.RED+Style.BRIGHT+f"Error inesperado: {e}")
-        return False, None
-    except KeyboardInterrupt:
-        print(Fore.RED+Style.BRIGHT+"\n\nSaliendo del sistema...\n")
-        return False, None
-    finally:
-        db.cerrar_conexion(conexion)
+    autenticado, rol, _ = autenticar(username, password)
+    return autenticado, rol
     
 def agregar_producto():
     """

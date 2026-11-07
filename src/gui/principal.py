@@ -48,7 +48,7 @@ def menu(rol: str):
                 case 5:
                     if rol == "Admin":
                         from src.gui.usuarios import menu_usuarios
-                        menu_usuarios();
+                        menu_usuarios(rol);
                     else:
                         print(Fore.RED+Style.BRIGHT+"\nError: Opción inválida. Solo los administradores pueden gestionar usuarios.");
                         input("\nPresione Enter para continuar...");
